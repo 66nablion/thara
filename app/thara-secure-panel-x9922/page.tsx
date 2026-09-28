@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '../supabase';
 
-export default function AdminDashboard() {
+export default function AdminPortalV2() {
   const [lang, setLang] = useState<'en' | 'ar'>('ar');
   const [user, setUser] = useState<any>(null);
   const [loadingAuth, setLoadingAuth] = useState(true);
@@ -23,8 +23,8 @@ export default function AdminDashboard() {
   const t = {
     en: {
       brand: "A.K COMPANY",
-      loginTitle: "A.K ADMIN PANEL",
-      loginSubtitle: "Secure administration portal. Authorized personnel only.",
+      loginTitle: "A.K ADMIN PORTAL",
+      loginSubtitle: "Authorized management access portal.",
       emailLabel: "Admin Email",
       passwordLabel: "Password",
       loginBtn: "Access Dashboard",
@@ -59,7 +59,7 @@ export default function AdminDashboard() {
     ar: {
       brand: "A.K COMPANY",
       loginTitle: "لوحة تحكم A.K COMPANY",
-      loginSubtitle: "بوابة الإدارة الآمنة. مخصصة للمصرح لهم فقط.",
+      loginSubtitle: "بوابة الإدارة المعتمدة والآمنة.",
       emailLabel: "البريد الإلكتروني للإدارة",
       passwordLabel: "كلمة المرور",
       loginBtn: "دخول اللوحة",
@@ -95,7 +95,6 @@ export default function AdminDashboard() {
 
   const currentT = t[lang];
 
-  // Check if admin is already logged in
   useEffect(() => {
     async function checkUser() {
       const { data: { session } } = await supabase.auth.getSession();
@@ -155,32 +154,32 @@ export default function AdminDashboard() {
 
   if (loadingAuth) {
     return (
-      <div className="min-h-screen bg-slate-950 text-white flex items-center justify-center">
-        <p className="text-amber-400 animate-pulse">{currentT.loadingAuth}</p>
+      <div className="min-h-screen bg-gradient-to-br from-slate-950 via-blue-950 to-slate-900 text-white flex items-center justify-center">
+        <p className="text-blue-400 animate-pulse">{currentT.loadingAuth}</p>
       </div>
     );
   }
 
   if (!user) {
     return (
-      <div className="min-h-screen bg-slate-950 text-white flex items-center justify-center px-4 font-sans selection:bg-amber-500 selection:text-white" dir={lang === 'ar' ? 'rtl' : 'ltr'}>
-        <div className="bg-slate-900 border border-slate-800 p-8 rounded-2xl max-w-md w-full shadow-2xl relative">
+      <div className="min-h-screen bg-gradient-to-br from-slate-950 via-blue-950 to-slate-900 text-white flex items-center justify-center px-4 font-sans selection:bg-blue-500 selection:text-white" dir={lang === 'ar' ? 'rtl' : 'ltr'}>
+        <div className="bg-slate-900/90 backdrop-blur-md border border-blue-500/30 p-8 rounded-2xl max-w-md w-full shadow-2xl relative">
           {/* Language Switcher Button */}
           <div className="absolute top-6 left-6 rtl:left-auto rtl:right-6">
             <button 
               onClick={() => setLang(lang === 'en' ? 'ar' : 'en')}
-              className="bg-slate-800 border border-slate-700 px-3 py-1 rounded-lg text-xs font-semibold hover:bg-slate-700 transition text-white"
+              className="bg-blue-900/50 border border-blue-500/40 px-3 py-1 rounded-lg text-xs font-semibold hover:bg-blue-800 transition text-blue-200"
             >
               {lang === 'en' ? 'العربية 🇸🇩' : 'English 🇬🇧'}
             </button>
           </div>
 
           <div className="text-center mb-8 mt-4 flex flex-col items-center">
-            <div className="w-14 h-14 rounded-full overflow-hidden border border-amber-500/50 bg-black flex items-center justify-center shadow-lg mb-3">
+            <div className="w-14 h-14 rounded-full overflow-hidden border border-blue-500/50 bg-blue-950 flex items-center justify-center shadow-lg mb-3">
               <img src="/logo.jpg" alt="A.K Company Logo" className="w-full h-full object-cover" />
             </div>
-            <h1 className="text-2xl font-extrabold tracking-widest text-white mb-1">A.K <span className="text-amber-400">COMPANY</span></h1>
-            <p className="text-slate-400 text-xs">{currentT.loginSubtitle}</p>
+            <h1 className="text-2xl font-extrabold tracking-widest text-white mb-1">A.K <span className="text-blue-400">COMPANY</span></h1>
+            <p className="text-slate-300 text-xs">{currentT.loginSubtitle}</p>
           </div>
 
           {loginError && (
@@ -197,7 +196,7 @@ export default function AdminDashboard() {
                 required 
                 value={email} 
                 onChange={(e) => setEmail(e.target.value)} 
-                className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-amber-500 text-white" 
+                className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-500 text-white" 
                 placeholder="admin@akcompany.com"
               />
             </div>
@@ -208,14 +207,14 @@ export default function AdminDashboard() {
                 required 
                 value={password} 
                 onChange={(e) => setPassword(e.target.value)} 
-                className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-amber-500 text-white" 
+                className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-500 text-white" 
                 placeholder="••••••••"
               />
             </div>
             <button 
               type="submit" 
               disabled={loginLoading}
-              className="w-full bg-amber-600 hover:bg-amber-500 py-3 rounded-xl font-medium transition text-sm text-white disabled:opacity-50 mt-2"
+              className="w-full bg-blue-600 hover:bg-blue-500 py-3 rounded-xl font-medium transition text-sm text-white disabled:opacity-50 mt-2 shadow-lg shadow-blue-600/30"
             >
               {loginLoading ? currentT.loginLoading : currentT.loginBtn}
             </button>
@@ -226,23 +225,23 @@ export default function AdminDashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-950 text-white font-sans p-6 md:p-12 selection:bg-amber-500 selection:text-white" dir={lang === 'ar' ? 'rtl' : 'ltr'}>
+    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-blue-950 to-slate-900 text-white font-sans p-6 md:p-12 selection:bg-blue-500 selection:text-white" dir={lang === 'ar' ? 'rtl' : 'ltr'}>
       <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <div className="flex justify-between items-center mb-10 border-b border-slate-800 pb-6">
+        <div className="flex justify-between items-center mb-10 border-b border-blue-900/50 pb-6">
           <div className="flex items-center space-x-3 rtl:space-x-reverse">
-            <div className="w-12 h-12 rounded-full overflow-hidden border border-amber-500/50 bg-black flex items-center justify-center shadow-lg">
+            <div className="w-12 h-12 rounded-full overflow-hidden border border-blue-500/50 bg-blue-950 flex items-center justify-center shadow-lg">
               <img src="/logo.jpg" alt="A.K Company Logo" className="w-full h-full object-cover" />
             </div>
             <div>
-              <h1 className="text-xl font-extrabold tracking-wider text-white">A.K <span className="text-amber-400">COMPANY</span></h1>
-              <p className="text-xs text-slate-400 mt-1">{currentT.loggedInAs} <strong className="text-slate-200">{user.email}</strong></p>
+              <h1 className="text-xl font-extrabold tracking-wider text-white">A.K <span className="text-blue-400">COMPANY</span></h1>
+              <p className="text-xs text-slate-300 mt-1">{currentT.loggedInAs} <strong className="text-blue-200">{user.email}</strong></p>
             </div>
           </div>
           <div className="flex items-center gap-4">
             <button 
               onClick={() => setLang(lang === 'en' ? 'ar' : 'en')}
-              className="bg-slate-900 border border-slate-800 px-3 py-1.5 rounded-xl text-xs font-semibold hover:bg-slate-800 transition text-white"
+              className="bg-blue-900/40 border border-blue-500/30 px-3 py-1.5 rounded-xl text-xs font-semibold hover:bg-blue-800 transition text-blue-200"
             >
               {lang === 'en' ? 'العربية 🇸🇩' : 'English 🇬🇧'}
             </button>
@@ -256,22 +255,22 @@ export default function AdminDashboard() {
         </div>
 
         {/* Navigation Tabs */}
-        <div className="flex gap-4 mb-8 border-b border-slate-800 pb-4 overflow-x-auto">
+        <div className="flex gap-4 mb-8 border-b border-blue-900/50 pb-4 overflow-x-auto">
           <button 
             onClick={() => setActiveTab('leads')}
-            className={`px-5 py-2.5 rounded-xl text-sm font-medium transition whitespace-nowrap ${activeTab === 'leads' ? 'bg-amber-600 text-white' : 'bg-slate-900 text-slate-400 hover:bg-slate-800'}`}
+            className={`px-5 py-2.5 rounded-xl text-sm font-medium transition whitespace-nowrap shadow-md ${activeTab === 'leads' ? 'bg-blue-600 text-white shadow-blue-600/30' : 'bg-slate-900/80 text-slate-300 hover:bg-slate-800'}`}
           >
             {currentT.tabLeads} ({leads.length})
           </button>
           <button 
             onClick={() => setActiveTab('questions')}
-            className={`px-5 py-2.5 rounded-xl text-sm font-medium transition whitespace-nowrap ${activeTab === 'questions' ? 'bg-amber-600 text-white' : 'bg-slate-900 text-slate-400 hover:bg-slate-800'}`}
+            className={`px-5 py-2.5 rounded-xl text-sm font-medium transition whitespace-nowrap shadow-md ${activeTab === 'questions' ? 'bg-blue-600 text-white shadow-blue-600/30' : 'bg-slate-900/80 text-slate-300 hover:bg-slate-800'}`}
           >
             {currentT.tabQuestions} ({questions.length})
           </button>
           <button 
             onClick={() => setActiveTab('uploads')}
-            className={`px-5 py-2.5 rounded-xl text-sm font-medium transition whitespace-nowrap ${activeTab === 'uploads' ? 'bg-amber-600 text-white' : 'bg-slate-900 text-slate-400 hover:bg-slate-800'}`}
+            className={`px-5 py-2.5 rounded-xl text-sm font-medium transition whitespace-nowrap shadow-md ${activeTab === 'uploads' ? 'bg-blue-600 text-white shadow-blue-600/30' : 'bg-slate-900/80 text-slate-300 hover:bg-slate-800'}`}
           >
             {currentT.tabUploads} ({uploads.length})
           </button>
@@ -279,13 +278,13 @@ export default function AdminDashboard() {
 
         {/* Tab 1: Onboarding Leads */}
         {activeTab === 'leads' && (
-          <div className="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-xl">
-            <div className="p-6 border-b border-slate-800">
-              <h2 className="text-lg font-bold">{currentT.leadsTitle}</h2>
+          <div className="bg-slate-900/80 backdrop-blur-md border border-blue-500/20 rounded-2xl overflow-hidden shadow-2xl">
+            <div className="p-6 border-b border-blue-900/40">
+              <h2 className="text-lg font-bold text-blue-200">{currentT.leadsTitle}</h2>
             </div>
             <div className="overflow-x-auto">
               <table className="w-full text-start text-sm">
-                <thead className="bg-slate-950 text-slate-400 text-xs uppercase border-b border-slate-800">
+                <thead className="bg-slate-950 text-slate-400 text-xs uppercase border-b border-blue-900/40">
                   <tr>
                     <th className="p-4">{currentT.thFullName}</th>
                     <th className="p-4">{currentT.thBusiness}</th>
@@ -296,16 +295,16 @@ export default function AdminDashboard() {
                     <th className="p-4">{currentT.thDate}</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-800">
+                <tbody className="divide-y divide-blue-950/40">
                   {leads.length === 0 ? (
                     <tr><td colSpan={7} className="p-6 text-center text-slate-500">{currentT.noLeads}</td></tr>
                   ) : (
                     leads.map((lead) => (
-                      <tr key={lead.id} className="hover:bg-slate-800/50 transition">
-                        <td className="p-4 font-semibold">{lead.full_name}</td>
+                      <tr key={lead.id} className="hover:bg-blue-950/20 transition">
+                        <td className="p-4 font-semibold text-white">{lead.full_name}</td>
                         <td className="p-4 text-slate-300">{lead.business_name}</td>
-                        <td className="p-4 text-amber-300 max-w-xs">{lead.service_needed || '—'}</td>
-                        <td className="p-4 text-amber-400 underline truncate max-w-xs"><a href={lead.social_link} target="_blank" rel="noreferrer">{lead.social_link}</a></td>
+                        <td className="p-4 text-blue-300 max-w-xs">{lead.service_needed || '—'}</td>
+                        <td className="p-4 text-blue-400 underline truncate max-w-xs"><a href={lead.social_link} target="_blank" rel="noreferrer">{lead.social_link}</a></td>
                         <td className="p-4 text-slate-300">{lead.phone}</td>
                         <td className="p-4 text-slate-300">{lead.email}</td>
                         <td className="p-4 text-slate-500 text-xs">{new Date(lead.created_at).toLocaleString()}</td>
@@ -320,13 +319,13 @@ export default function AdminDashboard() {
 
         {/* Tab 2: Site Questions */}
         {activeTab === 'questions' && (
-          <div className="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-xl">
-            <div className="p-6 border-b border-slate-800">
-              <h2 className="text-lg font-bold">{currentT.questionsTitle}</h2>
+          <div className="bg-slate-900/80 backdrop-blur-md border border-blue-500/20 rounded-2xl overflow-hidden shadow-2xl">
+            <div className="p-6 border-b border-blue-900/40">
+              <h2 className="text-lg font-bold text-blue-200">{currentT.questionsTitle}</h2>
             </div>
             <div className="overflow-x-auto">
               <table className="w-full text-start text-sm">
-                <thead className="bg-slate-950 text-slate-400 text-xs uppercase border-b border-slate-800">
+                <thead className="bg-slate-950 text-slate-400 text-xs uppercase border-b border-blue-900/40">
                   <tr>
                     <th className="p-4">{currentT.thVisitorName}</th>
                     <th className="p-4">{currentT.thEmail}</th>
@@ -334,13 +333,13 @@ export default function AdminDashboard() {
                     <th className="p-4">{currentT.thDate}</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-800">
+                <tbody className="divide-y divide-blue-950/40">
                   {questions.length === 0 ? (
                     <tr><td colSpan={4} className="p-6 text-center text-slate-500">{currentT.noQuestions}</td></tr>
                   ) : (
                     questions.map((q) => (
-                      <tr key={q.id} className="hover:bg-slate-800/50 transition">
-                        <td className="p-4 font-semibold">{q.visitor_name}</td>
+                      <tr key={q.id} className="hover:bg-blue-950/20 transition">
+                        <td className="p-4 font-semibold text-white">{q.visitor_name}</td>
                         <td className="p-4 text-slate-300">{q.visitor_email}</td>
                         <td className="p-4 text-slate-200 max-w-md leading-relaxed">{q.question_text}</td>
                         <td className="p-4 text-slate-500 text-xs">{new Date(q.created_at).toLocaleString()}</td>
@@ -355,13 +354,13 @@ export default function AdminDashboard() {
 
         {/* Tab 3: Client Uploads */}
         {activeTab === 'uploads' && (
-          <div className="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-xl">
-            <div className="p-6 border-b border-slate-800">
-              <h2 className="text-lg font-bold">{currentT.uploadsTitle}</h2>
+          <div className="bg-slate-900/80 backdrop-blur-md border border-blue-500/20 rounded-2xl overflow-hidden shadow-2xl">
+            <div className="p-6 border-b border-blue-900/40">
+              <h2 className="text-lg font-bold text-blue-200">{currentT.uploadsTitle}</h2>
             </div>
             <div className="overflow-x-auto">
               <table className="w-full text-start text-sm">
-                <thead className="bg-slate-950 text-slate-400 text-xs uppercase border-b border-slate-800">
+                <thead className="bg-slate-950 text-slate-400 text-xs uppercase border-b border-blue-900/40">
                   <tr>
                     <th className="p-4">{currentT.thEmail}</th>
                     <th className="p-4">{currentT.thFileName}</th>
@@ -369,13 +368,13 @@ export default function AdminDashboard() {
                     <th className="p-4 text-center">{currentT.thActions}</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-800">
+                <tbody className="divide-y divide-blue-950/40">
                   {uploads.length === 0 ? (
                     <tr><td colSpan={4} className="p-6 text-center text-slate-500">{currentT.noUploads}</td></tr>
                   ) : (
                     uploads.map((up) => (
-                      <tr key={up.id} className="hover:bg-slate-800/50 transition">
-                        <td className="p-4 font-semibold text-amber-400">{up.client_email}</td>
+                      <tr key={up.id} className="hover:bg-blue-950/20 transition">
+                        <td className="p-4 font-semibold text-blue-400">{up.client_email}</td>
                         <td className="p-4 text-slate-300">{up.file_name || 'Attached File'}</td>
                         <td className="p-4 text-slate-500 text-xs">{new Date(up.created_at).toLocaleString()}</td>
                         <td className="p-4 text-center space-x-2 rtl:space-x-reverse">
@@ -383,7 +382,7 @@ export default function AdminDashboard() {
                             href={up.file_url} 
                             target="_blank" 
                             rel="noreferrer" 
-                            className="bg-amber-600 hover:bg-amber-500 text-white px-3 py-1.5 rounded-lg text-xs font-medium transition inline-block"
+                            className="bg-blue-600 hover:bg-blue-500 text-white px-3 py-1.5 rounded-lg text-xs font-medium transition inline-block shadow-md"
                           >
                             {currentT.viewBtn}
                           </a>
